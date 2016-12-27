@@ -1,6 +1,5 @@
 var restify = require('restify');
 var builder = require('botbuilder');
-var fs = require("fs");
 
 //=========================================================
 // Bot Setup
@@ -12,45 +11,21 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
    console.log('%s listening to %s', server.name, server.url); 
 });
   
-Array.prototype.randomElement = function () {
-    return this[Math.floor(Math.random() * this.length)]
-}
 // Create chat bot
 var connector = new builder.ChatConnector({
-    appId: '422495b1-a3b3-4e35-bf27-69484072b7dd',
-    appPassword: 'NgfJ4a6Km4Tszea3b91KCUW'
+    appId: process.env.MICROSOFT_APP_ID,
+    appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
 var bot = new builder.UniversalBot(connector);
-var contents = fs.readFileSync("images.json");
-var jsonContent = JSON.parse(contents);
-var images = jsonContent.images;
-var myRandomElement = images.randomElement()
 server.post('/api/messages', connector.listen());
-
-//=========================================================
-// Bots Middleware
-//=========================================================
-
-// Anytime the major version is incremented any existing conversations will be restarted.
-bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
-
-//=========================================================
-// Bots Global Actions
-//=========================================================
-
 
 //=========================================================
 // Bots Dialogs
 //=========================================================
 
-bot.dialog('/', [
-    function (session) {
-        // Send a greeting and show help.
-        session.send("Hi... I'm Immy, together we will play a game!");
-        session.beginDialog('/picture');
-    }
-]);
-
+bot.dialog('/', function (session) {
+    session.send("Hello World");
+});
 
 
 
