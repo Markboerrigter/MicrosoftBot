@@ -10,12 +10,34 @@ var botConnectorOptions = {
 };
 
 // Create bot
-var bot = new builder.BotConnectorBot(botConnectorOptions);
-bot.add('/', function (session) {
-    
-    //respond with user's message
-    session.send("You said " + session.message.text);
-});
+var bot = new builder.UniversalBot(connector);
+var contents = fs.readFileSync("images.json");
+var jsonContent = JSON.parse(contents);
+var images = jsonContent.images;
+var myRandomElement = images.randomElement()
+//=========================================================
+// Bots Middleware
+//=========================================================
+
+// Anytime the major version is incremented any existing conversations will be restarted.
+bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i }));
+
+//=========================================================
+// Bots Global Actions
+//=========================================================
+
+
+//=========================================================
+// Bots Dialogs
+//=========================================================
+
+bot.dialog('/', [
+    function (session) {
+        // Send a greeting and show help.
+        session.send("Hi... I'm Immy, together we will play a game!");
+        session.beginDialog('/picture');
+    }
+]);
 
 // Setup Restify Server
 var server = restify.createServer();
