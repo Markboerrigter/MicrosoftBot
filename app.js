@@ -1,33 +1,28 @@
 var restify = require('restify');
 var builder = require('botbuilder');
 
-// Get secrets from server environment
-var connector = new builder.ChatConnector({
-	// appId: process.env.BOTFRAMEWORK_APPID, 
-    // appSecret: process.env.BOTFRAMEWORK_APPSECRET 
-    appId: '422495b1-a3b3-4e35-bf27-69484072b7dd',
-    appPassword: 'NgfJ4a6Km4Tszea3b91KCUW'
-});
-
-// Create bot
-var bot = new builder.UniversalBot(connector);
-bot.dialog('/', function (session) {
-    session.send("Hello World");
-})
+//=========================================================
+// Bot Setup
+//=========================================================
 
 // Setup Restify Server
 var server = restify.createServer();
-server.use(restify.CORS());
-server.listen(process.env.port || 3978, function () {
-    console.log('%s listening to %s', server.name, server.url); 
+server.listen(process.env.port || process.env.PORT || 3978, function () {
+   console.log('%s listening to %s', server.name, server.url); 
 });
-// Handle Bot Framework messages
-
-/* 
-// Serve a static web page
-server.get(//, restify.serveStatic({
-	'directory': '.',
-	'default': 'index.html'
-}));
- */
+  
+// Create chat bot
+var connector = new builder.ChatConnector({
+    appId: process.env.MICROSOFT_APP_ID,
+    appPassword: process.env.MICROSOFT_APP_PASSWORD
+});
+var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
+
+//=========================================================
+// Bots Dialogs
+//=========================================================
+
+bot.dialog('/', function (session) {
+    session.send("Hello World");
+});
