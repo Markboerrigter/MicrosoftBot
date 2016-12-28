@@ -7,15 +7,11 @@ server.listen(4770, function () {
 });
 
 var connector = new builder.ChatConnector({
-    appId: process.env.MICROSOFT_APP_ID,
-    appPassword: process.env.MICROSOFT_APP_PASSWORD
+    appId: '422495b1-a3b3-4e35-bf27-69484072b7dd',
+    appPassword: 'NgfJ4a6Km4Tszea3b91KCUW'
 });
 const bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
-
-bot.on('error', function (message) {
-    console.log(message);
-});
 
 bot.dialog('/', function (session) {
     session.send("Hello World");
