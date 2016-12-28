@@ -1,4 +1,4 @@
-var restify = require('restify');
+/* var restify = require('restify');
 var builder = require('botbuilder');
 var fs = require("fs");
 
@@ -49,7 +49,7 @@ bot.dialog('/', [
         session.send("Hi... I'm Immy, together we will play a game!");
         session.beginDialog('/picture');
     }
-]);
+]); */
 
 
 
