@@ -17,7 +17,7 @@ bot.add('/', function (session) {
 
 // Setup Restify Server
 var server = restify.createServer();
-
+server.use(restify.CORS());
 // Handle Bot Framework messages
 server.post('/api/messages', bot.verifyBotFramework(), bot.listen());
 
