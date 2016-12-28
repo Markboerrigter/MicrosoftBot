@@ -1,32 +1,22 @@
-var restify = require('restify');
-var builder = require('botbuilder');
+const builder = require('botbuilder');
+const restify = require('restify');
 
-// Get secrets from server environment
-var botConnectorOptions = { 
-    appId: '422495b1-a3b3-4e35-bf27-69484072b7dd',
-    appPassword: 'NgfJ4a6Km4Tszea3b91KCUW'
-};
-// Create bot
+const server = restify.createServer();
+server.listen(4770, function () {
+    console.log('%s listening to %s', server.name, server.url);
+});
+
 var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
-var bot = new builder.UniversalBot(connector);
-bot.dialog('/', function (session) {
-   session.send('Hello World'); 
+const bot = new builder.UniversalBot(connector);
+server.post('/api/messages', connector.listen());
+
+bot.on('error', function (message) {
+    console.log(message);
 });
-// Setup Restify Server
-var server = restify.createServer();
-server.use(restify.CORS());
-// Handle Bot Framework messages
-server.post('/api/messages', bot.verifyBotFramework(), bot.listen());
 
-// Serve a static web page
-server.get(/.*/, restify.serveStatic({
-	'directory': '.',
-	'default': 'index.html'
-}));
-
-server.listen(process.env.port || 3978, function () {
-    console.log('%s listening to %s', server.name, server.url); 
+bot.dialog('/', function (session) {
+    session.send("Hello World");
 });
