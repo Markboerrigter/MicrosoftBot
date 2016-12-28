@@ -2,12 +2,15 @@ var restify = require('restify');
 var builder = require('botbuilder');
 
 // Get secrets from server environment
-var botConnectorOptions = { 
+var connector = new builder.ChatConnector({
     // appId: process.env.BOTFRAMEWORK_APPID, 
     // appSecret: process.env.BOTFRAMEWORK_APPSECRET 
     appId: '422495b1-a3b3-4e35-bf27-69484072b7dd',
     appPassword: 'NgfJ4a6Km4Tszea3b91KCUW'
-};
+});
+Array.prototype.randomElement = function () {
+    return this[Math.floor(Math.random() * this.length)]
+}
 
 // Create bot
 var bot = new builder.UniversalBot(connector);
