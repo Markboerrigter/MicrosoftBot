@@ -1,9 +1,9 @@
 const builder = require('botbuilder');
 const restify = require('restify');
 
-const server = restify.createServer();
-server.listen(4770, function () {
-    console.log('%s listening to %s', server.name, server.url);
+var server = restify.createServer();
+server.listen(process.env.port || process.env.PORT || 3978, function () {
+   console.log('%s listening to %s', server.name, server.url); 
 });
 
 var connector = new builder.ChatConnector({
